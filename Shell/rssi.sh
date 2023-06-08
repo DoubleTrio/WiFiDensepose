@@ -8,12 +8,21 @@
 #Description: This script shows wifi signal strength by blinking one led.
 #2015 raphik, danitool
 
+EXTENSION=`echo "$1" | cut -d'.' -f2`
+
+if [ "$EXTENSION" != "csv" ];
+  printf "\nUSAGE:
+  rssi.sh <*.csv>
+  \n\nERROR\n"
+  exit 255
+fi;
+
 Led_On() { 
-	  echo $2 > /sys/class/leds/$1/delay_on 
+	echo $2 > /sys/class/leds/$1/delay_on 
 }
  
 Led_Off() {
-	  echo $2 > /sys/class/leds/$1/delay_off
+	echo $2 > /sys/class/leds/$1/delay_off
 }
 
 Get_Strength() {
@@ -27,21 +36,21 @@ Get_Strength() {
 }
 
 Trigger_LED() {
-    # $1 - measured strength
-    # $2 - old strength
-    # $3 - LED
-    # $4 - antinne number
-    # $5 - measured RSSI
-    if [ $2 = 4 ] ; then echo timer > /sys/class/leds/$3/trigger
-    fi
-    case $1 in
-      4)  Led_On $3 1960; Led_Off $3 40 ;;
-      3)  Led_On $3 950;  Led_Off $3 50  ;;
-      2)  Led_On $3 500;  Led_Off $3 500 ;;
-      1)  Led_On $3 50;   Led_Off $3 950  ;;
-      0)  Led_On $3 40;   Led_Off $3 1960 ;; 
-      esac
-      echo "#$4 SIGNAL STRENGTH (RSSI: $5) (0-4): $1"
+  # $1 - measured strength
+  # $2 - old strength
+  # $3 - LED
+  # $4 - antinne number
+  # $5 - measured RSSI
+  if [ $2 = 4 ] ; then echo timer > /sys/class/leds/$3/trigger
+  fi
+  case $1 in
+    4)  Led_On $3 1960; Led_Off $3 40 ;;
+    3)  Led_On $3 950;  Led_Off $3 50  ;;
+    2)  Led_On $3 500;  Led_Off $3 500 ;;
+    1)  Led_On $3 50;   Led_Off $3 950  ;;
+    0)  Led_On $3 40;   Led_Off $3 1960 ;; 
+  esac
+  echo "#$4 SIGNAL STRENGTH (RSSI: $5) (0-4): $1"
 }
 
 OLD_STRENGTH1=-1
@@ -57,8 +66,6 @@ echo timer > /sys/class/leds/$LED2/trigger
 echo timer > /sys/class/leds/$LED3/trigger
 
 while true ; do
-  TIMESTAMP=`date "+%s%N"`
-
   DUMP=`iw dev wlan0 station dump`
   TIMESTAMPNSEC=`echo "$DUMP" | tail -1 |  awk '{ print $3 }'`
   SIGNALS=`echo "$DUMP" | grep "signal:" | grep -o '\[.*]' | sed 's/\[//g' | sed 's/]//g' | sed 's/[[:space:]]*//g'`
@@ -71,7 +78,7 @@ while true ; do
   then
     echo "empty reading"
   else
-    echo $TIMESTAMP,$TIMESTAMPNSEC,$RSSI1,$RSSI2,$RSSI3>>output.csv
+    echo $TIMESTAMPNSEC,$RSSI1,$RSSI2,$RSSI3>>$1
 
     STRENGTH1=$(Get_Strength $RSSI1)
     STRENGTH2=$(Get_Strength $RSSI2)
@@ -86,7 +93,7 @@ while true ; do
     OLD_STRENGTH2=$STRENGTH2
     OLD_STRENGTH3=$STRENGTH3
   fi
-  sleep 3  
+  # sleep 3  
 done
 
 exit
