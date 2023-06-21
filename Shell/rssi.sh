@@ -8,21 +8,21 @@
 #Description: This script shows wifi signal strength by blinking one led.
 #2015 raphik, danitool
 
-EXTENSION=`echo "$1" | cut -d'.' -f2`
+# EXTENSION=`echo "$1" | cut -d'.' -f2`
 
-if [ "$EXTENSION" != "csv" ];
-  printf "\nUSAGE:
-  rssi.sh <*.csv>
-  \n\nERROR\n"
-  exit 255
-fi;
+# if [ "$EXTENSION" != "csv" ];
+#   printf "\nUSAGE:
+#   rssi.sh <*.csv>
+#   \n\nERROR\n"
+#   exit 255
+# fi;
 
 Led_On() { 
-	echo $2 > /sys/class/leds/$1/delay_on 
+  echo $2 > /sys/class/leds/$1/delay_on 
 }
  
 Led_Off() {
-	echo $2 > /sys/class/leds/$1/delay_off
+  echo $2 > /sys/class/leds/$1/delay_off
 }
 
 Get_Strength() {
