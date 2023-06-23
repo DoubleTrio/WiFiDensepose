@@ -4,6 +4,12 @@ if [ -z "$1" ]
     exit 1
 fi
 
+# ==== STEP 0 DOWNLOAD ALL NECESSARY LIBRARIES
+sudo apt update
+sudo apt install build-essential clang flex bison g++ gawk gcc-multilib g++-multilib \
+gettext git libncurses-dev libssl-dev python3-distutils rsync unzip zlib1g-dev \
+file wget
+
 # ==== STEP 1 DOWNLOAD SOURCE FROM OPENWRT ====
 # Download and update the sources  
 git clone https://git.openwrt.org/openwrt/openwrt.git  
@@ -29,7 +35,7 @@ make -j$(nproc) defconfig download clean world
 # Note: toolchain-mips_24kc_gcc-11.2.0_musl can be different depending on what version of 
 # OpenWrt and toolchain you use
 
-export PATH=$PATH:$(pwd)/staging_dir/toolchain-mips_24kc_gcc-11.2.0_musl
+export PATH=$PATH:$(pwd)/staging_dir/toolchain-mips_24kc_gcc-11.2.0_musl/bin
 export TOOLCHAIN_DIR=$(pwd)/staging_dir/toolchain-mips_24kc_gcc-11.2.0_musl
 
 # ==== STEP 3 COMPILE ATHEROS TOOL ====
