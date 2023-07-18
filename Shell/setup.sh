@@ -15,6 +15,7 @@ file wget
 git clone https://git.openwrt.org/openwrt/openwrt.git  
 cd openwrt  
 git pull  
+
 # Select a specific code revision  
 git branch -a  
 git tag  

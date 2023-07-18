@@ -63,7 +63,7 @@ def process_csi_row(row: np.ndarray, count: int) -> np.ndarray:
     num_cols = row[col_idx]
     csi_info = row[csi_idx]
     res, amp_results, unwrapped_phase_results, phase_results = process_csi(num_rows, num_cols, num_tones, csi_info)
-    if count == 50:
+    if count == 150:
         plot_amps(amp_results, timestamp, filter_none, "")
         plot_phases(unwrapped_phase_results, timestamp, filter_none, "u")
         plot_phases(phase_results, timestamp, filter_none, "")
@@ -153,6 +153,7 @@ def get_amp(complex_num) -> float:
     imag = np.imag(complex_num)
     real = np.real(complex_num)
     result = np.sqrt(np.power(real, 2), np.power(imag, 2))
+    # result = 10 * np.log10(result)
     return result
 
 def get_phase(complex_num, unwrap = True) -> float:
