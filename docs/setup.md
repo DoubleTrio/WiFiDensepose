@@ -12,13 +12,24 @@ There are several things we should do to making the process of running the CSI p
 
 - Set a new administrator router password.
 - Under `Network` -> `Interfaces` -> `Edit` (LAN) -> `General Setup`, make a note of the MAC Address and IPv4 address on both routers, and change one of the router's IPv4 address to be something different from the other router. This is so that we can later `ssh` into both routers at the same time.
+
+<img src="imgs/router_ipv4.png" width=500>
+
 - Under `Network` -> `Wireless` -> `General Setup` (Device Configuration), make sure that Wireless network is enabled.
+
+<img src="imgs/router_enable.png" width=500>
+
 - Under `Network` -> `Wireless` -> `General Setup` (Interface Configuration), set the ESSID to be something distinguishable and memorable (both routers). This is the name of the network displayed.
-  - You should also set a WPA2-PSK password under the `Wireless Security Tab` to prevent anyone from accessing your network.
+
+<img src="imgs/router_essid.png" width=500>
+
+- You should also set a WPA2-PSK password under the `Wireless Security Tab` to prevent anyone from accessing your network.
+
+<img src="imgs/router_encryption.png" width=500>
 
 &nbsp;  
 
-Now that we have both routers set up, we can start compiling program to both routers.
+Now that we have both routers set up, we can start compiling programs to both routers.
 
 ## Cross-Compiler
 
@@ -43,14 +54,14 @@ make menuconfig
 
 You should see a menu that looks like so:
 
-[TODO: Insert image here]
+<img src="imgs/cross_compiler_menu_start.png" width="400">
 
 Set up the following configuration:
 - Set the `Target System` to be `ATH79`
 - Set the `Target Profile` to be `Archer C7 v2`
 - Then save the configuration
 
-Then run the following command"
+Then run the following command:
 ```bash
 make -j$(nproc) kernel_menuconfig 
 make -j$(nproc) defconfig download clean world
