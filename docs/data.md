@@ -67,7 +67,7 @@ You should see the raw amplitude and phase plotted real-time:
 
 The raw amplitude and phase are logged into `data/tmp/sample_data.csv`, where each row is structured like so:
 
-| Number Channels (1)|  Timestamp (2) | Raw Amplitudes (3 - 507)| Raw Amplitudes (508 - 1012) |
+| Number Channels (1)|  Timestamp (2) | Raw Amplitudes (3 - 507)| Raw Phases (508 - 1012) |
 | -----------| ----------- | ----------- | ----------- |
 | 56 | 1219267055 |  73.7563556583431 ... |  -1.65927439927587 ... |   
 | 56 | 1219267120 |  74.2428447730823 ... |  -0.11575921772081 ... |   
